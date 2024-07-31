@@ -54,6 +54,28 @@ const registerUser = async (req, res) => {
 };
 
 //login user
-const loginUser = async (req, res) => {};
+const loginUser = async (req, res) => {
+  //required emial and password form request body 
+  const {email,password} = req.body
+  try{
+    const user = await userModel.findOne({email})
+    //check if we got any user
+    if (!user){
+      return res.json({success:false, message:"user doesn't exist"})
+    }
+    // compare password that user enter and password form db
+    const isMatch = await bcrypt.compare(password,user.password) 
+    if(!isMatch){
+      return res.json({success:false, message:"password deosn't match"})
+    }
+    const token = createToken(user._id)
+    res.json({success:true,token})
+  }
+  catch(error){
+    console.log("error",error);
+    res.json({success:false,message:"error while login"})
+
+  }
+};
 
 export { registerUser, loginUser };
