@@ -3,6 +3,7 @@ import cors from "cors";
 import "dotenv/config";
 import { connectDB } from "./src/config/db.js";
 import userRouter from "./src/routes/userRoutes.js";
+import 'dotenv/config'
 
 //app config
 const app = express(); // store instence of express app
